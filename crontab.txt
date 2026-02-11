@@ -1,0 +1,17 @@
+# Install with: crontab crontab.txt
+# Adjust paths to your setup
+
+SHELL=/bin/bash
+PROJECT=/home/user/weather-predictor
+
+# Collect forecasts + recent observations every 6 hours
+0 */6 * * *   cd $PROJECT && uv run python collector.py >> logs/collector.log 2>&1
+
+# Generate predictions right after collection
+5 */6 * * *   cd $PROJECT && uv run python predict.py >> logs/predict.log 2>&1
+
+# Daily verification at 8am
+0 8 * * *     cd $PROJECT && uv run python verify.py >> logs/verify.log 2>&1
+
+# Weekly retrain Sunday at 2am
+0 2 * * 0     cd $PROJECT && uv run python train.py >> logs/train.log 2>&1

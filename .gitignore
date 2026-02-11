@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# UV
+.python-version
+
+# Data (don't push your database or model files to GitHub)
+*.db
+*.db-wal
+*.db-shm
+models/*.pkl
+latest_forecast.json
+
+# Logs
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
