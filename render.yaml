@@ -4,10 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: >
-      pip install gunicorn &&
-      python startup.py &&
-      python -m gunicorn wsgi:app --bind 0.0.0.0:10000 --timeout 120 --workers 2
+    startCommand: python startup.py && python -m gunicorn wsgi:app
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.3"
