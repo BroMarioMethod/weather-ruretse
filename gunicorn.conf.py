@@ -3,7 +3,7 @@ import multiprocessing
 # Render free tier has limited RAM — keep it lean
 workers = 2
 worker_class = "sync"
-bind = "0.0.0.0:5000"  # Render uses port 10000
+bind = "0.0.0.0:5000"
 timeout = 120            # chart generation can take a moment
 accesslog = "-"          # log to stdout
 errorlog = "-"
