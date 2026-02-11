@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: weather-forecast
+    name: ruretse-weather
     runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: bash render_start.sh
     plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python startup.py && gunicorn wsgi:app
     envVars:
       - key: PYTHON_VERSION
         value: "3.12"

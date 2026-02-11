@@ -3,10 +3,10 @@ __pycache__/
 *.pyc
 .venv/
 
-# UV
+# UV (don't ignore pyproject.toml or requirements.txt)
 .python-version
 
-# Data (don't push your database or model files to GitHub)
+# Data — not tracked, rebuilt on Render startup
 *.db
 *.db-wal
 *.db-shm

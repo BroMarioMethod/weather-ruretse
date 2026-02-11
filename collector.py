@@ -155,6 +155,33 @@ def backfill_forecasts() -> None:
         "historical forecasts",
     )
 
+def backfill_forecasts_from_archive() -> None:
+    """
+    Fallback: copy archive/reanalysis data into the forecasts table.
+    Less ideal than real historical forecasts but gets training working.
+    """
+    conn = db.get_conn()
+    count = conn.execute("""
+        INSERT OR REPLACE INTO forecasts
+            (fetched_at, valid_time, source, lead_hours,
+             temperature_2m, dewpoint_2m, relative_humidity_2m,
+             pressure_msl, surface_pressure,
+             wind_speed_10m, wind_direction_10m, wind_gusts_10m,
+             precipitation, precipitation_probability,
+             cloud_cover, cape, visibility)
+        SELECT
+            'backfill-archive', time, 'best_match', NULL,
+            temperature_2m, dewpoint_2m, relative_humidity_2m,
+            pressure_msl, surface_pressure,
+            wind_speed_10m, wind_direction_10m, NULL,
+            precipitation, NULL,
+            cloud_cover, NULL, NULL
+        FROM observations
+    """).rowcount
+    conn.commit()
+    conn.close()
+    print(f"[collector] Copied {count} observation rows → forecasts table (fallback)")
+
 
 def _chunked_fetch(start, end, fetch_fn, store_fn, label, chunk_days=30):
     """Fetch data in chunks to stay within API limits."""
