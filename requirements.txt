@@ -16,6 +16,7 @@ flask==3.1.2
     # via weather-predictor (pyproject.toml)
 fonttools==4.61.1
     # via matplotlib
+gunicorn>=23.0
 idna==3.11
     # via requests
 itsdangerous==2.2.0
